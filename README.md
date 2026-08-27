@@ -1,8 +1,7 @@
 # Financial Report Dashboard
 
-一个面向 Codex 的财报可视化 Skill：从上市公司财报 PDF、业绩新闻稿或财务表格中提取数据，生成可审计、可离线运行、适配桌面与移动端的中文 ECharts 看板。
+一个的财报可视化 Skill：从上市公司财报 PDF、业绩新闻稿或财务表格中提取数据，生成可审计、可离线运行、适配桌面与移动端的中文 ECharts 看板。
 
-![Financial Report Dashboard 预览](docs/preview.png)
 
 ## 主要能力
 
