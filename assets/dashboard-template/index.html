@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="NVIDIA 2027 财年第二季度财报可视化分析">
+<title>NVIDIA 2027 财年第二季度财报分析</title>
+<style>
+  :root {
+    --nv-green: #76b900;
+    --nv-green-dark: #4c7a00;
+    --ink: #172116;
+    --muted: #657064;
+    --card-bg: rgba(255, 255, 255, 0.96);
+    --page-bg: #f2f5ef;
+    --border: #dfe7da;
+    --income: #66a300;
+    --expense: #e15b4b;
+    --profit: #168a62;
+    --subtotal: #52606d;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-width: 320px;
+    padding: 24px;
+    color: var(--ink);
+    background:
+      radial-gradient(circle at 8% 0%, rgba(118, 185, 0, 0.12), transparent 25rem),
+      linear-gradient(180deg, #f8faf6 0, var(--page-bg) 36rem);
+    font-family: Inter, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+
+  header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+    padding: 6px 2px;
+  }
+  .brand-line { display: flex; align-items: center; gap: 12px; margin-bottom: 7px; }
+  .brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    color: #fff;
+    background: var(--nv-green);
+    font-size: 19px;
+    font-weight: 900;
+    letter-spacing: -0.08em;
+    box-shadow: 0 8px 20px rgba(88, 139, 0, 0.2);
+  }
+  header h1 { font-size: clamp(23px, 3vw, 32px); line-height: 1.1; letter-spacing: -0.035em; }
+  header h1 .green { color: var(--nv-green-dark); }
+  header .sub { max-width: 820px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+  .quarter-tag {
+    flex: 0 0 auto;
+    padding: 9px 13px;
+    border: 1px solid rgba(118, 185, 0, 0.32);
+    border-radius: 999px;
+    color: var(--nv-green-dark);
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 18px; }
+  .kpi {
+    position: relative;
+    overflow: hidden;
+    min-height: 132px;
+    padding: 17px 18px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--card-bg);
+    box-shadow: 0 10px 28px rgba(38, 57, 31, 0.045);
+  }
+  .kpi::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--nv-green), transparent);
+    opacity: 0.75;
+  }
+  .kpi .label { margin-bottom: 7px; color: var(--muted); font-size: 12px; }
+  .kpi .value { font-size: clamp(24px, 3vw, 29px); font-weight: 800; letter-spacing: -0.045em; }
+  .kpi .unit { margin-left: 3px; color: var(--muted); font-size: 12px; font-weight: 500; letter-spacing: 0; }
+  .kpi .delta { margin-top: 8px; font-size: 12px; font-weight: 650; }
+  .delta.up { color: #dc2626; }
+  .delta.down { color: #168a62; }
+
+  .card {
+    margin-bottom: 18px;
+    padding: 19px 21px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--card-bg);
+    box-shadow: 0 10px 28px rgba(38, 57, 31, 0.04);
+  }
+  .card h2 { margin-bottom: 4px; font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
+  .card .desc { margin-bottom: 8px; color: var(--muted); font-size: 12px; line-height: 1.6; }
+  .chart { width: 100%; height: 380px; }
+  .chart.tall { height: 490px; }
+
+  .sankey-card {
+    position: relative;
+    overflow: hidden;
+    padding: 29px 28px 18px;
+    border-color: #dce7d5;
+    border-radius: 18px;
+    background:
+      radial-gradient(circle at 11% 0%, rgba(118, 185, 0, 0.11), transparent 31%),
+      radial-gradient(circle at 91% 7%, rgba(22, 138, 98, 0.07), transparent 27%),
+      #fff;
+    box-shadow: 0 20px 52px rgba(47, 76, 33, 0.08);
+  }
+  .sankey-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: linear-gradient(90deg, var(--nv-green) 0 44%, #e15b4b 44% 70%, #168a62 70%);
+  }
+  .sankey-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+  .eyebrow {
+    margin-bottom: 7px;
+    color: var(--nv-green-dark);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
+  .sankey-title {
+    margin: 0;
+    color: #21351c;
+    font-size: clamp(29px, 4vw, 46px) !important;
+    font-weight: 850 !important;
+    line-height: 1.12;
+    letter-spacing: -0.045em !important;
+  }
+  .sankey-title .brand { color: var(--nv-green-dark); }
+  .flow-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+  .flow-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    border: 1px solid #e4eadf;
+    border-radius: 999px;
+    color: var(--muted);
+    background: rgba(255, 255, 255, 0.82);
+    font-size: 11px;
+    font-weight: 650;
+  }
+  .flow-legend i { width: 8px; height: 8px; border-radius: 50%; }
+  .flow-legend .income i { background: var(--income); }
+  .flow-legend .expense i { background: var(--expense); }
+  .flow-legend .profit i { background: var(--profit); }
+  .flow-legend .subtotal i { background: var(--subtotal); }
+  .period { flex: 0 0 auto; padding-top: 9px; color: var(--muted); text-align: right; font-size: 12px; line-height: 1.55; }
+  .period strong { display: block; color: #21351c; font-size: 17px; }
+  .chart-scroll { overflow-x: auto; overflow-y: hidden; }
+
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .outlook {
+    display: grid;
+    grid-template-columns: 1.35fr repeat(3, 1fr);
+    gap: 12px;
+    align-items: stretch;
+  }
+  .outlook-lead, .outlook-item {
+    padding: 16px;
+    border: 1px solid #e2e9dd;
+    border-radius: 11px;
+    background: #f8faf6;
+  }
+  .outlook-lead { background: linear-gradient(140deg, #24321f, #384b2e); color: #fff; }
+  .outlook-lead .overline, .outlook-item .overline { margin-bottom: 7px; font-size: 11px; font-weight: 700; letter-spacing: .06em; opacity: .72; }
+  .outlook-lead .big { font-size: 30px; font-weight: 800; letter-spacing: -.04em; }
+  .outlook-lead .big span { color: #a8dd45; }
+  .outlook-item .big { color: #263720; font-size: 23px; font-weight: 800; }
+  .outlook-item p, .outlook-lead p { margin-top: 7px; font-size: 11px; line-height: 1.55; opacity: .76; }
+
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; min-width: 720px; border-collapse: collapse; font-size: 13px; }
+  th, td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: right; }
+  th:first-child, td:first-child { text-align: left; }
+  th { color: var(--muted); background: linear-gradient(180deg, #629433 0 5px, #FEFF99 5px 100%); font-weight: 550; }
+  td.pos { color: #dc2626; font-weight: 650; }
+  td.neg { color: #168a62; font-weight: 650; }
+  tr.subtotal td { background: #FEFF99; font-weight: 700; }
+  footer { margin: 5px 2px 0; color: var(--muted); font-size: 11px; line-height: 1.8; }
+
+  @media (max-width: 920px) {
+    .kpis { grid-template-columns: repeat(2, 1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+    .outlook { grid-template-columns: repeat(3, 1fr); }
+    .outlook-lead { grid-column: 1 / -1; }
+  }
+  @media (max-width: 680px) {
+    body { padding: 12px; }
+    header { display: block; }
+    .quarter-tag { display: inline-block; margin-top: 12px; }
+    .kpis { grid-template-columns: 1fr 1fr; gap: 10px; }
+    .kpi { min-height: 122px; padding: 14px; }
+    .kpi .value { font-size: 22px; }
+    .sankey-card { padding: 24px 14px 14px; }
+    .sankey-head { display: block; }
+    .period { margin-top: 10px; padding: 0; text-align: left; }
+    .chart-scroll { margin: 0 -14px; padding: 0 14px; }
+    .chart.tall { width: 900px; height: 480px; }
+    .outlook { grid-template-columns: 1fr; }
+    .outlook-lead { grid-column: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brand-line">
+        <div class="brand-mark" aria-hidden="true">NV</div>
+        <h1><span class="green">NVIDIA</span> 2027 财年第二季度财报分析</h1>
+      </div>
+      <div class="sub">数据来源：NVIDIA Announces Financial Results for Second Quarter Fiscal 2027（2026-08-26）· 财季截至 2026-07-26 · 金额单位：亿美元</div>
+    </div>
+    <div class="quarter-tag">NASDAQ: NVDA · Q2 FY2027</div>
+  </header>
+
+  <section class="kpis" id="kpis" aria-label="核心财务指标"></section>
+
+  <section class="card sankey-card">
+    <div class="sankey-head">
+      <div>
+        <div class="eyebrow">Income statement · Sankey</div>
+        <h2 class="sankey-title"><span class="brand">NVIDIA</span> Q2 收入与利润流向</h2>
+        <div class="flow-legend" aria-label="图例">
+          <span class="income"><i></i>收入</span>
+          <span class="expense"><i></i>成本与费用</span>
+          <span class="profit"><i></i>利润与收益</span>
+          <span class="subtotal"><i></i>汇总节点</span>
+        </div>
+      </div>
+      <div class="period"><strong>Q2 FY2027</strong>截至 2026 年 7 月 26 日<br>单位：亿美元</div>
+    </div>
+    <div class="chart-scroll"><div id="sankey" class="chart tall"></div></div>
+  </section>
+
+  <div class="grid2">
+    <section class="card">
+      <h2>收入引擎：AI 基础设施主导</h2>
+      <div class="desc">数据中心与边缘计算收入构成；上年同期按披露增速反推，可能受四舍五入影响</div>
+      <div id="revenueMix" class="chart"></div>
+    </section>
+    <section class="card">
+      <h2>投入结构：研发继续加码</h2>
+      <div class="desc">营业成本、研发及销售管理费用同比对比；柱顶标注同比增速</div>
+      <div id="expenses" class="chart"></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>盈利能力：规模与毛利率同步扩张</h2>
+    <div class="desc">GAAP / Non-GAAP 利润对比及利润率；本期 GAAP 净利润高于 Non-GAAP，主要源于股权证券净收益调整</div>
+    <div id="profitability" class="chart"></div>
+  </section>
+
+  <section class="card">
+    <h2>现金创造与股东回报</h2>
+    <div class="desc">经营现金流与自由现金流同比增长；本季度以回购和股息形式返还股东约 260 亿美元</div>
+    <div id="cashflow" class="chart" style="height:330px"></div>
+  </section>
+
+  <section class="card">
+    <h2>Q3 FY2027 指引</h2>
+    <div class="desc">管理层预期；收入指引未计入来自中国的数据中心计算收入</div>
+    <div class="outlook">
+      <div class="outlook-lead">
+        <div class="overline">REVENUE OUTLOOK</div>
+        <div class="big"><span>1,080</span> 亿美元</div>
+        <p>环比 Q2 实际收入约增长 12.2%，允许上下浮动 2%。</p>
+      </div>
+      <div class="outlook-item">
+        <div class="overline">GAAP 毛利率</div>
+        <div class="big">74.0%</div>
+        <p>允许上下浮动 50 个基点。</p>
+      </div>
+      <div class="outlook-item">
+        <div class="overline">GAAP 营业费用</div>
+        <div class="big">约 92 亿美元</div>
+        <p>较 Q2 实际营业费用约增加 9.4%。</p>
+      </div>
+      <div class="outlook-item">
+        <div class="overline">Non-GAAP 营业费用</div>
+        <div class="big">约 90 亿美元</div>
+        <p>全年税率预期为 16%–18%。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>核心财务数据（Q2 FY2027 vs Q2 FY2026）</h2>
+    <div class="desc">金额单位：亿美元；每股收益单位：美元</div>
+    <div class="table-wrap"><table id="dataTable"></table></div>
+  </section>
+
+  <footer>
+    注：1. 原始财报以百万美元披露，本页换算为亿美元；比例因四舍五入可能存在微小差异。<br>
+    2. NVIDIA 自 2027 财年第一季度起，Non-GAAP 指标不再剔除股权激励费用，历史同期数据已按新口径更新。<br>
+    3. “边缘计算”包括财报中 Edge Computing 业务；业务线同期金额依据披露的同比增速反推，仅用于结构展示。<br>
+    4. 本页为财报数据可视化，不构成投资建议。
+  </footer>
+</div>
+<script src="./echarts.min.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
