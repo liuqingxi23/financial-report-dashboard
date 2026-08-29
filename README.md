@@ -106,21 +106,21 @@ python3 scripts/scaffold_dashboard.py ./output/company-q2
 <table>
   <tr>
     <td width="50%" align="center">
-      <a href="docs/nvidia_01.png"><img src="docs/nvidia_01.png" alt="NVIDIA FY2027 Q2 核心 KPI 与收入利润桑基图" width="480" height="320"></a><br>
+      <a href="docs/nvidia_01.png"><img src="docs/nvidia_01.png" alt="NVIDIA FY2027 Q2 核心 KPI 与收入利润桑基图" width="480"></a><br>
       <sub><b>核心 KPI 与收入利润桑基图</b></sub>
     </td>
     <td width="50%" align="center">
-      <a href="docs/nvidia_02.png"><img src="docs/nvidia_02.png" alt="NVIDIA FY2027 Q2 收入结构、投入结构与盈利能力" width="480" height="320"></a><br>
+      <a href="docs/nvidia_02.png"><img src="docs/nvidia_02.png" alt="NVIDIA FY2027 Q2 收入结构、投入结构与盈利能力" width="480"></a><br>
       <sub><b>收入结构、投入结构与盈利能力</b></sub>
     </td>
   </tr>
   <tr>
     <td width="50%" align="center">
-      <a href="docs/nvidia_03.png"><img src="docs/nvidia_03.png" alt="NVIDIA FY2027 Q2 现金流与下一季度业绩指引" width="480" height="320"></a><br>
+      <a href="docs/nvidia_03.png"><img src="docs/nvidia_03.png" alt="NVIDIA FY2027 Q2 现金流与下一季度业绩指引" width="480"></a><br>
       <sub><b>现金流与下一季度业绩指引</b></sub>
     </td>
     <td width="50%" align="center">
-      <a href="docs/nvidia_04.png"><img src="docs/nvidia_04.png" alt="NVIDIA FY2027 Q2 核心财务数据明细与同比变化" width="480" height="320"></a><br>
+      <a href="docs/nvidia_04.png"><img src="docs/nvidia_04.png" alt="NVIDIA FY2027 Q2 核心财务数据明细与同比变化" width="480"></a><br>
       <sub><b>核心财务数据明细与同比变化</b></sub>
     </td>
   </tr>
