@@ -36,6 +36,8 @@ python3 scripts/scaffold_dashboard.py /tmp/financial-dashboard-contribution-test
 - 涨跌变化使用红涨绿跌；
 - 卡片、坐标轴、提示框和表格的单位一致；
 - 桑基图财务流向可以勾稽；
+- 非标题文字在桌面与移动端均清晰，图例、坐标轴和数据标签无截断；
+- 桑基图使用本地官方 Logo，最终背景透明且不遮挡流线或悬停交互；
 - 示例数据、Skill 说明和适配文档同步更新；
 - 若更换标准示例，更新 `references/dashboard-adaptation.md` 中的残留数据搜索词。
 
@@ -45,4 +47,3 @@ python3 scripts/scaffold_dashboard.py /tmp/financial-dashboard-contribution-test
 - 明确区分必需条件和可选工具；
 - 不承诺 Skill 无法稳定完成的自动化能力；
 - 对推导数据、单位换算和会计口径保持透明。
-

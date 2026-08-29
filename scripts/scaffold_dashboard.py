@@ -28,7 +28,10 @@ def scaffold(output_dir: Path) -> None:
             shutil.copy2(source, target)
 
     print(f"Dashboard template created at: {output_dir.resolve()}")
-    print("Next: replace all NVIDIA sample data and follow references/dashboard-adaptation.md.")
+    print(
+        "Next: replace all NVIDIA sample content and follow "
+        "references/dashboard-adaptation.md and references/visual-polish.md."
+    )
 
 
 def main() -> None:

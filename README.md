@@ -14,6 +14,8 @@
 - 校验财务勾稽关系、单位换算和同比计算
 - 使用本地 ECharts，无需 CDN 或前端构建工具
 - 支持桌面端、移动端及宽桑基图横向滚动
+- 使用更易读的正文、图例、坐标轴、数据标签与表格字号层级
+- 在桑基图留白区加入本地官方公司 Logo，并验证透明背景与移动端定位
 
 ## 项目结构
 
@@ -26,9 +28,11 @@ financial-report-dashboard/
 │   └── dashboard-template/          # 可直接运行的 ECharts 看板模板
 │       ├── index.html
 │       ├── app.js
-│       └── echarts.min.js
+│       ├── echarts.min.js
+│       └── company-logo.png         # 桑基图透明 Logo 示例，适配时必须替换
 ├── references/
-│   └── dashboard-adaptation.md      # 数据口径、颜色和验收规则
+│   ├── dashboard-adaptation.md      # 数据口径、颜色和验收规则
+│   └── visual-polish.md             # 字体、桑基图标签与透明 Logo 规范
 ├── scripts/
 │   └── scaffold_dashboard.py        # 安全复制模板的脚手架
 ├── CONTRIBUTING.md
@@ -93,7 +97,7 @@ cp -R financial-report-dashboard .claude/skills/
 python3 scripts/scaffold_dashboard.py ./output/company-q2
 ```
 
-脚手架不会覆盖非空目录。生成的模板包含 NVIDIA 示例数据，必须根据目标财报完整替换公司、财期、单位、指标、指引和注释。
+脚手架不会覆盖非空目录。生成的模板包含 NVIDIA 示例数据与 Logo，必须根据目标财报完整替换公司、品牌素材、财期、单位、指标、指引和注释。
 
 ### Skill 使用案例：NVIDIA FY2027 Q2 财报可视化
 
@@ -132,7 +136,7 @@ python3 scripts/scaffold_dashboard.py ./output/company-q2
 6. 运行语法、勾稽和浏览器截图检查。
 7. 搜索并清除 NVIDIA 示例名称、日期和数字。
 
-完整规则见 [dashboard-adaptation.md](references/dashboard-adaptation.md)。
+完整规则见 [dashboard-adaptation.md](references/dashboard-adaptation.md) 与 [visual-polish.md](references/visual-polish.md)。
 
 ## 数据与视觉约定
 

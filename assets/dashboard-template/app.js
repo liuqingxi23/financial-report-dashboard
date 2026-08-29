@@ -61,6 +61,9 @@ const COLORS = {
   down: '#168a62',
 };
 
+const LEGEND_TEXT = { color: '#4f5a4e', fontSize: 12, fontWeight: 650 };
+const AXIS_TEXT = { color: '#4f5a4e', fontSize: 13, fontWeight: 600 };
+
 const fmt = (n, digits = 1) => Number(n).toFixed(digits);
 const yoy = (cur, prev) => ((cur - prev) / Math.abs(prev)) * 100;
 const margin = (value, revenue) => (value / revenue) * 100;
@@ -70,7 +73,7 @@ function baseChart(spec) {
   return {
     animationDuration: 700,
     animationEasing: 'cubicOut',
-    textStyle: { fontFamily: 'Inter, PingFang SC, Microsoft YaHei, sans-serif' },
+    textStyle: { fontFamily: 'Inter, PingFang SC, Microsoft YaHei, sans-serif', fontSize: 12 },
     grid: { left: 22, right: 22, top: 48, bottom: 22, containLabel: true, ...grid },
     tooltip: {
       trigger: 'axis',
@@ -78,7 +81,7 @@ function baseChart(spec) {
       backgroundColor: 'rgba(29, 42, 25, .95)',
       borderWidth: 0,
       padding: [10, 13],
-      textStyle: { color: '#fff', fontSize: 12 },
+      textStyle: { color: '#fff', fontSize: 13 },
       extraCssText: 'border-radius:8px;box-shadow:0 10px 28px rgba(23,33,20,.2)',
       valueFormatter: value => `${fmt(value, 2)} 亿美元`,
       ...tooltip,
@@ -147,7 +150,7 @@ function sankeyOption() {
       backgroundColor: 'rgba(29, 42, 25, .96)',
       borderWidth: 0,
       padding: [10, 13],
-      textStyle: { color: '#fff', fontSize: 12 },
+      textStyle: { color: '#fff', fontSize: 13 },
       extraCssText: 'border-radius:8px;box-shadow:0 10px 28px rgba(23,33,20,.2)',
       formatter: p => {
         if (p.dataType === 'edge') {
@@ -160,29 +163,29 @@ function sankeyOption() {
     },
     series: [{
       type: 'sankey',
-      left: '4%', right: '13%', top: 26, bottom: 18,
+      left: '4%', right: '13%', top: 26, bottom: 92,
       layoutIterations: 32,
       nodeWidth: 24,
-      nodeGap: 25,
+      nodeGap: 28,
       draggable: false,
       emphasis: { focus: 'adjacency' },
       itemStyle: { borderWidth: 0, borderRadius: 3 },
       lineStyle: { color: 'gradient', curveness: 0.5, opacity: 0.27 },
       label: {
         position: 'right',
-        distance: 8,
+        distance: 9,
         formatter: p => `{${p.data.kind}Name|${p.data.title}}\n{${p.data.kind}Value|${p.data.amount}}`,
         rich: {
-          incomeName: { color: COLORS.greenDark, fontSize: 13, fontWeight: 700, lineHeight: 20 },
-          incomeValue: { color: '#69962b', fontSize: 11, fontWeight: 600, lineHeight: 16 },
-          incomeAltName: { color: '#6c932d', fontSize: 13, fontWeight: 700, lineHeight: 20 },
-          incomeAltValue: { color: '#799f42', fontSize: 11, fontWeight: 600, lineHeight: 16 },
-          expenseName: { color: '#c94d40', fontSize: 13, fontWeight: 700, lineHeight: 20 },
-          expenseValue: { color: '#bd675d', fontSize: 11, fontWeight: 600, lineHeight: 16 },
-          profitName: { color: COLORS.profit, fontSize: 13, fontWeight: 700, lineHeight: 20 },
-          profitValue: { color: '#3d8e72', fontSize: 11, fontWeight: 600, lineHeight: 16 },
-          subtotalName: { color: COLORS.subtotal, fontSize: 13, fontWeight: 700, lineHeight: 20 },
-          subtotalValue: { color: '#697681', fontSize: 11, fontWeight: 600, lineHeight: 16 },
+          incomeName: { color: COLORS.greenDark, fontSize: 14, fontWeight: 750, lineHeight: 22 },
+          incomeValue: { color: '#69962b', fontSize: 12, fontWeight: 600, lineHeight: 17 },
+          incomeAltName: { color: '#6c932d', fontSize: 14, fontWeight: 750, lineHeight: 22 },
+          incomeAltValue: { color: '#799f42', fontSize: 12, fontWeight: 600, lineHeight: 17 },
+          expenseName: { color: '#c94d40', fontSize: 14, fontWeight: 750, lineHeight: 22 },
+          expenseValue: { color: '#bd675d', fontSize: 12, fontWeight: 600, lineHeight: 17 },
+          profitName: { color: COLORS.profit, fontSize: 14, fontWeight: 750, lineHeight: 22 },
+          profitValue: { color: '#3d8e72', fontSize: 12, fontWeight: 600, lineHeight: 17 },
+          subtotalName: { color: COLORS.subtotal, fontSize: 14, fontWeight: 750, lineHeight: 22 },
+          subtotalValue: { color: '#697681', fontSize: 12, fontWeight: 600, lineHeight: 17 },
         },
       },
       data: nodes,
@@ -195,9 +198,9 @@ function revenueMixOption() {
   const c = D.current;
   const p = D.prior;
   return baseChart({
-    legend: { top: 0, textStyle: { color: COLORS.muted, fontSize: 11 } },
-    xAxis: { type: 'category', data: ['Q2 FY2026', 'Q2 FY2027'], axisTick: { show: false }, axisLine: { lineStyle: { color: '#dfe5da' } } },
-    yAxis: { type: 'value', name: '亿美元', splitLine: { lineStyle: { color: COLORS.grid } } },
+    legend: { top: 0, itemWidth: 13, itemHeight: 8, textStyle: LEGEND_TEXT },
+    xAxis: { type: 'category', data: ['Q2 FY2026', 'Q2 FY2027'], axisTick: { show: false }, axisLine: { lineStyle: { color: '#b8c1b4' } }, axisLabel: AXIS_TEXT },
+    yAxis: { type: 'value', name: '亿美元', nameTextStyle: AXIS_TEXT, axisLabel: AXIS_TEXT, splitLine: { lineStyle: { color: COLORS.grid } } },
     series: [
       {
         name: '数据中心', type: 'bar', stack: 'revenue', barWidth: 68,
@@ -209,12 +212,12 @@ function revenueMixOption() {
         name: '边缘计算', type: 'bar', stack: 'revenue', barWidth: 68,
         data: [p.edge, c.edge],
         itemStyle: { color: COLORS.greenSoft, borderRadius: [5, 5, 0, 0] },
-        label: { show: true, position: 'inside', color: '#31421f', fontSize: 10, fontWeight: 700, formatter: p => fmt(p.value, 1) },
+        label: { show: true, position: 'inside', color: '#31421f', fontSize: 11, fontWeight: 700, formatter: p => fmt(p.value, 1) },
       },
     ],
     graphic: [
-      { type: 'text', right: 12, top: 45, style: { text: '数据中心 +117% YoY', fill: COLORS.up, fontSize: 11, fontWeight: 700 } },
-      { type: 'text', right: 12, top: 63, style: { text: '边缘计算 +27% YoY', fill: COLORS.up, fontSize: 11, fontWeight: 700 } },
+      { type: 'text', right: 12, top: 45, style: { text: '数据中心 +117% YoY', fill: COLORS.up, fontSize: 12, fontWeight: 700 } },
+      { type: 'text', right: 12, top: 64, style: { text: '边缘计算 +27% YoY', fill: COLORS.up, fontSize: 12, fontWeight: 700 } },
     ],
   });
 }
@@ -226,14 +229,14 @@ function expensesOption() {
   const prior = [p.cost, p.rd, p.sga];
   const current = [c.cost, c.rd, c.sga];
   return baseChart({
-    legend: { top: 0, textStyle: { color: COLORS.muted, fontSize: 11 } },
-    xAxis: { type: 'category', data: categories, axisTick: { show: false }, axisLine: { lineStyle: { color: '#dfe5da' } }, axisLabel: { fontSize: 11 } },
-    yAxis: { type: 'value', name: '亿美元', splitLine: { lineStyle: { color: COLORS.grid } } },
+    legend: { top: 0, itemWidth: 13, itemHeight: 8, textStyle: LEGEND_TEXT },
+    xAxis: { type: 'category', data: categories, axisTick: { show: false }, axisLine: { lineStyle: { color: '#b8c1b4' } }, axisLabel: AXIS_TEXT },
+    yAxis: { type: 'value', name: '亿美元', nameTextStyle: AXIS_TEXT, axisLabel: AXIS_TEXT, splitLine: { lineStyle: { color: COLORS.grid } } },
     series: [
       {
         name: 'Q2 FY2026', type: 'bar', data: prior, barMaxWidth: 38,
         itemStyle: { color: COLORS.prior, borderRadius: [4, 4, 0, 0] },
-        label: { show: true, position: 'top', color: '#7d8679', fontSize: 10, formatter: p => fmt(p.value, 1) },
+        label: { show: true, position: 'top', color: '#727c6e', fontSize: 11, lineHeight: 17, formatter: p => fmt(p.value, 1) },
       },
       {
         name: 'Q2 FY2027', type: 'bar', data: current, barMaxWidth: 38,
@@ -242,8 +245,8 @@ function expensesOption() {
           show: true, position: 'top', distance: 4,
           formatter: p => `{v|${fmt(p.value, 1)}}\n{y|+${fmt(yoy(p.value, prior[p.dataIndex]), 0)}%}`,
           rich: {
-            v: { color: COLORS.text, fontSize: 10, lineHeight: 16 },
-            y: { color: COLORS.up, backgroundColor: '#fef2f2', borderRadius: 3, padding: [1, 4], fontSize: 9 },
+            v: { color: COLORS.text, fontSize: 11, lineHeight: 17 },
+            y: { color: COLORS.up, backgroundColor: '#fef2f2', borderRadius: 3, padding: [1, 4], fontSize: 10, fontWeight: 700 },
           },
         },
       },
@@ -262,11 +265,11 @@ function profitabilityOption() {
   const revenue = [p.revenue, c.revenue];
   return baseChart({
     grid: { top: 76 },
-    legend: { top: 0, left: 'center', width: '95%', itemWidth: 16, textStyle: { color: COLORS.muted, fontSize: 10 } },
-    xAxis: { type: 'category', data: periods, axisTick: { show: false }, axisLine: { lineStyle: { color: '#dfe5da' } } },
+    legend: { top: 0, left: 'center', width: '95%', itemWidth: 14, itemHeight: 8, textStyle: LEGEND_TEXT },
+    xAxis: { type: 'category', data: periods, axisTick: { show: false }, axisLine: { lineStyle: { color: '#b8c1b4' } }, axisLabel: AXIS_TEXT },
     yAxis: [
-      { type: 'value', name: '亿美元', splitLine: { lineStyle: { color: COLORS.grid } } },
-      { type: 'value', name: '利润率', min: 40, max: 70, axisLabel: { formatter: '{value}%' }, splitLine: { show: false } },
+      { type: 'value', name: '亿美元', nameTextStyle: AXIS_TEXT, axisLabel: AXIS_TEXT, splitLine: { lineStyle: { color: COLORS.grid } } },
+      { type: 'value', name: '利润率', min: 40, max: 70, nameTextStyle: AXIS_TEXT, axisLabel: { ...AXIS_TEXT, formatter: '{value}%' }, splitLine: { show: false } },
     ],
     tooltip: {
       formatter: params => {
@@ -283,13 +286,13 @@ function profitabilityOption() {
         name: '营业利润率 GAAP', type: 'line', yAxisIndex: 1,
         data: gaapOp.map((v, i) => margin(v, revenue[i])),
         lineStyle: { color: COLORS.greenDark, width: 2 }, itemStyle: { color: COLORS.greenDark }, symbolSize: 8,
-        label: { show: true, position: 'top', color: COLORS.greenDark, formatter: p => `${fmt(p.value, 1)}%` },
+        label: { show: true, position: 'top', color: COLORS.greenDark, fontSize: 12, fontWeight: 700, formatter: p => `${fmt(p.value, 1)}%` },
       },
       {
         name: '净利润率 GAAP', type: 'line', yAxisIndex: 1,
         data: gaapNet.map((v, i) => margin(v, revenue[i])),
         lineStyle: { color: COLORS.profit, width: 2, type: 'dashed' }, itemStyle: { color: COLORS.profit }, symbol: 'diamond', symbolSize: 9,
-        label: { show: true, position: 'bottom', color: COLORS.profit, formatter: p => `${fmt(p.value, 1)}%` },
+        label: { show: true, position: 'bottom', color: COLORS.profit, fontSize: 12, fontWeight: 700, formatter: p => `${fmt(p.value, 1)}%` },
       },
     ],
   });
@@ -303,14 +306,14 @@ function cashflowOption() {
   const current = [c.operatingCashFlow, c.freeCashFlow];
   return baseChart({
     grid: { left: 26, right: 38, top: 40, bottom: 26 },
-    legend: { top: 0, textStyle: { color: COLORS.muted, fontSize: 11 } },
-    xAxis: { type: 'value', name: '亿美元', splitLine: { lineStyle: { color: COLORS.grid } } },
-    yAxis: { type: 'category', data: labels, axisTick: { show: false }, axisLine: { show: false } },
+    legend: { top: 0, itemWidth: 14, itemHeight: 8, textStyle: LEGEND_TEXT },
+    xAxis: { type: 'value', name: '亿美元', nameTextStyle: AXIS_TEXT, axisLabel: AXIS_TEXT, splitLine: { lineStyle: { color: COLORS.grid } }, axisLine: { lineStyle: { color: '#b8c1b4' } } },
+    yAxis: { type: 'category', data: labels, axisTick: { show: false }, axisLine: { show: false }, axisLabel: { ...AXIS_TEXT, fontSize: 14 } },
     series: [
       {
         name: 'Q2 FY2026', type: 'bar', data: prior, barMaxWidth: 28,
         itemStyle: { color: COLORS.prior, borderRadius: [0, 5, 5, 0] },
-        label: { show: true, position: 'right', color: '#778173', formatter: p => fmt(p.value, 1) },
+        label: { show: true, position: 'right', color: '#727c6e', fontSize: 12, formatter: p => fmt(p.value, 1) },
       },
       {
         name: 'Q2 FY2027', type: 'bar', data: current, barMaxWidth: 28,
@@ -318,7 +321,7 @@ function cashflowOption() {
         label: {
           show: true, position: 'right',
           formatter: p => `{v|${fmt(p.value, 1)}}  {y|+${fmt(yoy(p.value, prior[p.dataIndex]), 0)}% YoY}`,
-          rich: { v: { color: COLORS.text, fontWeight: 700 }, y: { color: COLORS.up, fontSize: 10 } },
+          rich: { v: { color: COLORS.text, fontSize: 12, fontWeight: 700 }, y: { color: COLORS.up, fontSize: 11, fontWeight: 700 } },
         },
       },
     ],

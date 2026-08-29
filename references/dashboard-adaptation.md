@@ -84,6 +84,7 @@ Update all of the following:
 
 - HTML title, metadata, header, source line, ticker, period, and unit;
 - company mark and CSS brand variables;
+- the local official logo asset used by the Sankey, including its filename, `alt` text, transparent treatment, and clear space;
 - raw data, KPI definitions, node labels, series labels, tooltips, and table rows;
 - management guidance and any disclosure-specific commentary;
 - footer notes on units, derivations, accounting changes, and investment-risk disclaimer.
@@ -113,5 +114,8 @@ When Firefox or Chromium is available, render a desktop screenshot around 1440 p
 - correct red-up/green-down colors;
 - unit consistency in cards, axes, tooltips, and tables;
 - horizontal access to the full Sankey on mobile;
+- readable non-title typography in descriptions, legends, axes, labels, tables, and notes;
+- a locally stored official company logo centered in unused Sankey space, with no visible background rectangle and no blocked hover interaction;
 - table overflow behavior and readable footer notes.
 
+Use [visual-polish.md](visual-polish.md) for typography baselines, local Sankey collision fixes, transparent-logo handling, and desktop/mobile visual acceptance checks.

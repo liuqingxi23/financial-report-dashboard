@@ -14,3 +14,10 @@ https://www.apache.org/licenses/LICENSE-2.0
 
 Apache ECharts 的版权和商标归其各自权利人所有。
 
+## NVIDIA Logo
+
+- 来源：NVIDIA Newsroom Media Assets
+- 页面：https://nvidianews.nvidia.com/multimedia/corporate/nvidia-logos
+- 文件：`assets/dashboard-template/company-logo.png`
+
+该文件由 NVIDIA 官方媒体素材转换为透明背景并裁切空白边界，仅用于模板示例。NVIDIA、NVIDIA Logo 及相关商标归 NVIDIA Corporation 所有；使用者应在适配模板时替换为目标公司的官方标识，并遵守相应品牌与商标使用规则。
